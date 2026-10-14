@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maria Alejandra Zapata — BI Analyst</title>
+<meta name="description" content="Business Intelligence Analyst with 6+ years building data models, pipelines and dashboards. MSc Data Science & Business Analytics candidate at Bologna Business School.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Maria Alejandra Zapata — Business Intelligence Analyst">
+<meta property="og:description" content="Power BI · Looker Studio · SQL · Python · Databricks. Projects, experience and skills.">
+<meta property="og:url" content="https://marialezapatag.github.io/">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f6f2; --surface:#ffffff; --surface-2:#efede6; --text:#1c1d1f; --muted:#5d6066;
+  --line:#e2dfd6; --accent:#0f6e66; --accent-soft:#dcefeb; --accent-text:#0b5751;
+  --accent2:#c0582f; --accent2-soft:#f8e4da; --accent2-text:#a54a26;
+  --shadow:0 1px 2px rgba(20,20,20,.04),0 8px 24px rgba(20,20,20,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111314; --surface:#1a1d1f; --surface-2:#222628; --text:#ecebe7; --muted:#a2a6ab;
+    --line:#2d3235; --accent:#4cc2b4; --accent-soft:#163533; --accent-text:#7fd8cc;
+    --accent2:#ef8a5e; --accent2-soft:#3a241b; --accent2-text:#f4a582;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111314; --surface:#1a1d1f; --surface-2:#222628; --text:#ecebe7; --muted:#a2a6ab;
+  --line:#2d3235; --accent:#4cc2b4; --accent-soft:#163533; --accent-text:#7fd8cc;
+    --accent2:#ef8a5e; --accent2-soft:#3a241b; --accent2-text:#f4a582;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 "DM Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-text);text-decoration-thickness:1px;text-underline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+h1,h2,h3{line-height:1.2;margin:0}
+h2{font:700 clamp(1.7rem,3.4vw,2.2rem)/1.15 "DM Sans",system-ui,sans-serif;letter-spacing:-.02em;margin-bottom:28px}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text);margin-bottom:10px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:24px;height:60px}
+.brand{font:700 1.1rem "DM Sans",system-ui,sans-serif;color:var(--text);text-decoration:none;margin-right:auto}
+.navlinks{display:flex;gap:20px}
+.navlinks a{color:var(--muted);text-decoration:none;font-size:.92rem;font-weight:500}
+.navlinks a:hover{color:var(--text)}
+.theme-btn{border:1px solid var(--line);background:var(--surface);color:var(--text);width:36px;height:36px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+@media (max-width:760px){.navlinks{display:none}}
+
+/* hero */
+.hero{padding:88px 0 56px}
+.hero h1{font:700 clamp(1.5rem,7vw,4.4rem)/1.04 "DM Sans",system-ui,sans-serif;letter-spacing:-.03em;white-space:nowrap}
+.hero .role{font-size:clamp(1.1rem,2.4vw,1.35rem);font-weight:500;margin:18px 0 6px}
+.hero .loc{color:var(--muted);margin:0 0 22px}
+.hero .lede{max-width:640px;font-size:1.08rem;color:var(--muted);margin:0 0 30px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:500;font-size:.95rem;text-decoration:none;border:1px solid var(--line);background:var(--surface);color:var(--text);transition:border-color .15s,transform .15s}
+.btn:hover{border-color:var(--accent);transform:translateY(-1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.btn svg{width:17px;height:17px}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:56px}
+.stat{background:var(--surface);padding:22px 20px}
+.stat b{display:block;font:700 2rem/1 "DM Sans",system-ui,sans-serif;letter-spacing:-.02em;color:var(--accent-text);margin-bottom:6px}
+.stat:nth-child(2) b{color:var(--accent2-text)}
+.stat span{color:var(--muted);font-size:.9rem}
+@media (max-width:560px){.stats{grid-template-columns:1fr}}
+
+section{padding:64px 0;border-top:1px solid var(--line)}
+
+/* experience */
+.timeline{position:relative;display:grid;gap:22px}
+.job{display:grid;grid-template-columns:190px 1fr;gap:28px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
+.job .when{color:var(--muted);font-size:.9rem;font-weight:500}
+.job .when .badge{display:inline-block;margin-top:8px;font-size:.75rem;font-weight:700;color:var(--accent-text);background:var(--accent-soft);padding:2px 10px;border-radius:999px}
+.job h3{font-size:1.15rem;font-weight:700}
+.job .org{color:var(--muted);margin:4px 0 12px;font-size:.95rem}
+.job ul{margin:0;padding-left:18px}
+.job li{margin:5px 0}
+@media (max-width:760px){.job{grid-template-columns:1fr;gap:8px;padding:22px}}
+
+/* projects */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:var(--shadow)}
+.card .tag{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.card h3{font-size:1.2rem;font-weight:700;margin-bottom:10px}
+.card p{color:var(--muted);margin:0 0 14px}
+.card ul{margin:0 0 16px;padding-left:18px;font-size:.95rem}
+.card li{margin:4px 0}
+.metric{display:inline-flex;align-items:baseline;gap:8px;background:var(--accent-soft);color:var(--accent-text);border-radius:10px;padding:8px 12px;margin-bottom:16px;font-size:.88rem;font-weight:500;align-self:flex-start}
+.metric b{font:700 1.3rem "DM Sans",system-ui,sans-serif}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:auto 0 18px}
+.chip{font-size:.8rem;padding:3px 10px;border-radius:999px;background:var(--surface-2);color:var(--text)}
+.links{display:flex;flex-wrap:wrap;gap:16px;font-weight:500;font-size:.93rem}
+.links a{text-decoration:none}
+.links a:hover{text-decoration:underline}
+
+
+/* project visuals */
+.card.project{align-items:center;text-align:center;transition:transform .2s,border-color .2s}
+.card.project:hover{transform:translateY(-3px);border-color:var(--accent2)}
+.card.project ul{text-align:left;align-self:stretch}
+.card.project .chips,.card.project .links{justify-content:center}
+.card.project .metric{align-self:center}
+.card.project .tag{color:var(--accent2-text)}
+.orb{width:104px;height:104px;border-radius:50%;display:grid;place-items:center;margin:4px 0 20px;color:#fff;box-shadow:0 0 0 6px var(--surface),0 0 0 7px var(--line),0 10px 24px rgba(0,0,0,.12)}
+.orb svg{width:46px;height:46px}
+.orb.coral{background:linear-gradient(140deg,var(--accent2),color-mix(in srgb,var(--accent2) 70%,#000))}
+.orb.teal{background:linear-gradient(140deg,var(--accent),color-mix(in srgb,var(--accent) 70%,#000))}
+.orb.mix{background:linear-gradient(140deg,var(--accent2),var(--accent))}
+
+/* dashboards */
+.dash-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr}}
+.card.soon{border-style:dashed;border-color:var(--accent2);background:transparent;box-shadow:none}
+.pill{display:inline-block;font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--accent2-soft);color:var(--accent2-text);margin-bottom:12px;align-self:flex-start}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.skill{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow)}
+.skill .chips{margin:0}
+.skill h3{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.skill .chip{font-size:.88rem;padding:5px 12px;background:var(--surface-2);border:1px solid transparent}
+.skill .chip.adv{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-text)}
+.legend{color:var(--muted);font-size:.85rem;margin-top:22px}
+.legend .chip{border:1px solid var(--accent);color:var(--accent-text);background:var(--accent-soft)}
+
+/* education etc */
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:860px){.cols{grid-template-columns:1fr}}
+.list{list-style:none;margin:0;padding:0}
+.list li{padding:14px 0;border-bottom:1px solid var(--line)}
+.list li:last-child{border-bottom:0}
+.list b{display:block;font-weight:700}
+.list span{color:var(--muted);font-size:.92rem}
+
+footer{border-top:1px solid var(--line);padding:56px 0 64px}
+footer h2{margin-bottom:12px}
+footer p{color:var(--muted);margin:0 0 24px}
+.fine{color:var(--muted);font-size:.85rem;margin-top:40px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">Maria A. Zapata</a>
+    <div class="navlinks">
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#dashboards">Dashboards</a>
+      <a href="#education">Education</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="eyebrow">Portfolio</div>
+    <h1>Maria Alejandra Zapata</h1>
+    <p class="role">Business Intelligence Analyst · MSc candidate in Data Science &amp; Business Analytics</p>
+    <p class="loc">Bologna, Italy</p>
+    <p class="lede">I turn business questions into reliable data models, pipelines and executive dashboards. 6+ years across retail, real estate, entertainment, legal services and manufacturing, now adding machine learning and LLMs at Bologna Business School.</p>
+    <div class="btns">
+      <a class="btn primary" href="mailto:marialezapatag@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        Email me
+      </a>
+      <a class="btn" href="https://www.linkedin.com/in/mariaalejandrazapatagil" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        LinkedIn
+      </a>
+      <a class="btn" href="https://github.com/marialezapatag" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.3 18.3 4.6 18.3 4.6c.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+        GitHub
+      </a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>6+</b><span>years in BI &amp; data</span></div>
+      <div class="stat"><b>5</b><span>industries served</span></div>
+      <div class="stat"><b>3</b><span>languages: ES · EN · IT</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="eyebrow">Skills</div>
+    <h2>What I work with</h2>
+    <div class="skills">
+      <div class="skill">
+        <h3>BI &amp; visualization</h3>
+        <div class="chips"><span class="chip adv">Power BI</span><span class="chip adv">Looker Studio</span><span class="chip adv">Excel</span><span class="chip">Executive dashboard design</span></div>
+      </div>
+      <div class="skill">
+        <h3>Data engineering</h3>
+        <div class="chips"><span class="chip adv">SQL · BigQuery</span><span class="chip adv">SQL · Databricks</span><span class="chip">Microsoft Fabric</span><span class="chip">ETL/ELT · Kedro</span><span class="chip">Delta Lake</span><span class="chip">Data modeling</span><span class="chip">Data quality</span></div>
+      </div>
+      <div class="skill">
+        <h3>Programming &amp; ML</h3>
+        <div class="chips"><span class="chip">Python</span><span class="chip">pandas</span><span class="chip">PySpark</span><span class="chip">scikit-learn</span><span class="chip">LightGBM / XGBoost</span><span class="chip">FastAPI</span><span class="chip">LangChain</span></div>
+      </div>
+      <div class="skill">
+        <h3>Cloud</h3>
+        <div class="chips"><span class="chip">Google Cloud · BigQuery, Cloud Storage</span><span class="chip">Microsoft Azure / Fabric</span></div>
+      </div>
+      <div class="skill">
+        <h3>Professional</h3>
+        <div class="chips"><span class="chip">Stakeholder management</span><span class="chip">Team leadership</span><span class="chip">Requirements gathering</span><span class="chip">Lean Six Sigma</span></div>
+      </div>
+    </div>
+    <p class="legend"><span class="chip">Highlighted</span> = advanced level</p>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="eyebrow">Projects</div>
+    <h2>Selected projects</h2>
+    <div class="grid">
+      <article class="card project">
+        <div class="orb coral" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>
+        <div class="tag">Machine learning · Var Group fieldwork</div>
+        <h3>Motor insurance churn prediction</h3>
+        <p>Predicting which customers of an Italian auto insurer will leave, so marketing can target retention campaigns.</p>
+        <span class="metric"><b>0.885</b> ROC-AUC, best model</span>
+        <ul>
+          <li>~908K customer-year records (2015–2020), 43 variables</li>
+          <li>Temporal cutoff to avoid right-censoring bias</li>
+          <li>Executive presentation to marketing &amp; sales stakeholders</li>
+        </ul>
+        <div class="chips"><span class="chip">Python</span><span class="chip">LightGBM</span><span class="chip">XGBoost</span><span class="chip">scikit-learn</span></div>
+        <div class="links">
+          <a href="dashboards/churn.html" target="_blank" rel="noopener">Live dashboard ↗</a>
+          <a href="https://github.com/marialezapatag/motor-insurance-churn-prediction" target="_blank" rel="noopener">Code ↗</a>
+        </div>
+      </article>
+
+      <article class="card project">
+        <div class="orb teal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><polyline points="7 12 10 9 13 11 17 7"/></svg></div>
+        <div class="tag">LLMs · High-performance computing</div>
+        <h3>Reddit LLM stock sentiment</h3>
+        <p>An LLM pipeline that reads Reddit comments, extracts the stock tickers mentioned and scores the sentiment towards each one.</p>
+        <ul>
+          <li>Mistral Small 24B served with vLLM on the Leonardo supercomputer</li>
+          <li>Batch jobs scheduled with SLURM</li>
+          <li>Daily sentiment aggregation and visualizations</li>
+        </ul>
+        <div class="chips"><span class="chip">Python</span><span class="chip">LangChain</span><span class="chip">vLLM</span><span class="chip">SLURM</span><span class="chip">pandas</span></div>
+        <div class="links">
+          <a href="https://github.com/marialezapatag/reddit-llm-stock-sentiment" target="_blank" rel="noopener">Code ↗</a>
+        </div>
+      </article>
+
+      <article class="card project">
+        <div class="orb mix" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+        <div class="tag">NLP · Marketing analytics</div>
+        <h3>Brand social sentiment &amp; emojis</h3>
+        <p>What makes a brand's social media post perform? Analysis of tone, topic and emoji use across 600 posts from three brands.</p>
+        <ul>
+          <li>Transformer sentiment model, with VADER as a robustness check</li>
+          <li>Zero-shot topic classification: informative, entertaining, promotional</li>
+          <li>Regression on engagement: sentiment × emoji use is the most consistent driver</li>
+        </ul>
+        <div class="chips"><span class="chip">Hugging Face</span><span class="chip">VADER</span><span class="chip">statsmodels</span><span class="chip">pandas</span></div>
+        <div class="links">
+          <a href="https://github.com/marialezapatag/customer-marketing-analytics" target="_blank" rel="noopener">Code ↗</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="eyebrow">Experience</div>
+    <h2>Where I've worked</h2>
+    <div class="timeline">
+      <article class="job">
+        <div class="when">Feb 2024 – Present<br><span class="badge">Current</span></div>
+        <div>
+          <h3>Business Intelligence Analyst</h3>
+          <p class="org">Sumz S.A.S. · Bogotá, Colombia — data &amp; AI consultancy</p>
+          <ul>
+            <li>Led the business analyst team, setting analytics best practices and ensuring on-time delivery across client projects.</li>
+            <li>Delivered end-to-end BI solutions for retail, real estate and entertainment clients in Power BI, Microsoft Fabric and Databricks.</li>
+            <li>Designed relational data models and data-cleansing processes for reliable, well-structured reporting.</li>
+            <li>Developed and optimized complex SQL queries, improving data accessibility and performance.</li>
+            <li>Worked directly with client stakeholders to define requirements, validate results and present findings.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="job">
+        <div class="when">Aug 2021 – Jan 2024</div>
+        <div>
+          <h3>Data Analyst</h3>
+          <p class="org">Godoy Legal · Bogotá, Colombia — law firm</p>
+          <ul>
+            <li>Built sales reports and KPI dashboards in Power BI and Excel to support strategic decisions.</li>
+            <li>Automated recurring reports, improving monitoring efficiency across departments.</li>
+            <li>Partnered with cross-functional teams to find process improvements through data analysis.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="job">
+        <div class="when">Apr 2019 – Jul 2021</div>
+        <div>
+          <h3>Quality Assurance Coordinator / QA Analyst</h3>
+          <p class="org">Congrupo S.A. · Bogotá, Colombia — food manufacturer</p>
+          <ul>
+            <li>Led a team of QA analysts; applied Lean Six Sigma and statistical analysis to identify critical process stages.</li>
+            <li>Ensured regulatory compliance and audit readiness across production processes.</li>
+            <li>Implemented quality controls in the ERP system, streamlining inspections and data collection.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="dashboards">
+  <div class="wrap">
+    <div class="eyebrow">Dashboards</div>
+    <h2>Dashboards &amp; BI</h2>
+    <div class="dash-grid">
+      <article class="card">
+        <div class="tag">Professional experience</div>
+        <h3>Executive dashboards in Power BI &amp; Looker Studio</h3>
+        <p>Most of my dashboard work is built for clients and stays confidential. In practice it covers:</p>
+        <ul>
+          <li>End-to-end reporting for retail, real estate and entertainment clients: data model, SQL and dashboard design</li>
+          <li>Sales and KPI dashboards that support strategic decisions</li>
+          <li>Automated recurring reports that replace manual spreadsheets</li>
+        </ul>
+        <div class="chips"><span class="chip">Power BI</span><span class="chip">Looker Studio</span><span class="chip">Microsoft Fabric</span><span class="chip">BigQuery</span><span class="chip">Databricks</span></div>
+      </article>
+      <article class="card soon">
+        <span class="pill">Coming soon</span>
+        <h3>Public dashboard showcase</h3>
+        <p>An interactive dashboard built on open data, showing how I approach KPIs, filters and storytelling. In the meantime, explore the <a href="dashboards/churn.html" target="_blank" rel="noopener">churn dashboard ↗</a>.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="eyebrow">Education</div>
+        <ul class="list">
+          <li><b>MSc in Data Science and Business Analytics</b><span>Bologna Business School, University of Bologna · Oct 2025 – present</span><br><span>PySpark, machine learning, marketing analytics (NLP), Big Data for Industry 4.0, HPC</span></li>
+          <li><b>BSc in Chemical Engineering</b><span>Universidad de La Sabana, Bogotá · 2013 – 2018</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="eyebrow">Certifications</div>
+        <ul class="list">
+          <li><b>Azure Fundamentals</b><span>Microsoft · Feb 2025</span></li>
+          <li><b>Lean Six Sigma Yellow Belt</b><span>Lean Six Sigma Institute · Aug 2022</span></li>
+          <li><b>Python Essentials 1</b><span>Cisco · Jul 2022</span></li>
+          <li><b>Big Data and Business Analytics</b><span>Universidad de La Sabana · Aug 2021</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="eyebrow">Languages</div>
+        <ul class="list">
+          <li><b>Spanish</b><span>Native</span></li>
+          <li><b>English</b><span>Advanced (B2)</span></li>
+          <li><b>Italian</b><span>Intermediate (B1)</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <h2>Let's talk</h2>
+    <p>Open to Business Intelligence, analytics and data roles.</p>
+    <div class="btns">
+      <a class="btn primary" href="mailto:marialezapatag@gmail.com">marialezapatag@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/mariaalejandrazapatagil" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://github.com/marialezapatag" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <p class="fine">© 2026 Maria Alejandra Zapata</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  try{var saved=localStorage.getItem('theme'); if(saved) root.setAttribute('data-theme',saved);}catch(e){}
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('theme',next);}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
