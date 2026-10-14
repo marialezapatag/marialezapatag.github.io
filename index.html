@@ -38,7 +38,8 @@
 html{scroll-behavior:smooth;scroll-padding-top:72px}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 "DM Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--accent-text);text-decoration-thickness:1px;text-underline-offset:3px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 16px}
+@media (min-width:760px){.wrap{padding:0 32px}}
 h1,h2,h3{line-height:1.2;margin:0}
 h2{font:700 clamp(1.7rem,3.4vw,2.2rem)/1.15 "DM Sans",system-ui,sans-serif;letter-spacing:-.02em;margin-bottom:28px}
 .eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text);margin-bottom:10px}
@@ -58,7 +59,7 @@ nav .wrap{display:flex;align-items:center;gap:24px;height:60px}
 .hero h1{font:700 clamp(1.5rem,7vw,4.4rem)/1.04 "DM Sans",system-ui,sans-serif;letter-spacing:-.03em;white-space:nowrap}
 .hero .role{font-size:clamp(1.1rem,2.4vw,1.35rem);font-weight:500;margin:18px 0 6px}
 .hero .loc{color:var(--muted);margin:0 0 22px}
-.hero .lede{max-width:720px;font-size:1.06rem;color:var(--muted);margin:0 0 30px}
+.hero .lede{max-width:1000px;font-size:1.06rem;color:var(--muted);margin:0 0 30px}
 .hero .lede p{margin:0 0 14px}
 .hero .lede p:last-child{margin:0}
 .btns{display:flex;flex-wrap:wrap;gap:10px}
@@ -67,7 +68,7 @@ nav .wrap{display:flex;align-items:center;gap:24px;height:60px}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
 .btn svg{width:17px;height:17px}
 
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:56px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:48px}
 .stat{background:var(--surface);padding:22px 20px}
 .stat b{display:block;font:700 2rem/1 "DM Sans",system-ui,sans-serif;letter-spacing:-.02em;color:var(--accent-text);margin-bottom:6px}
 .stat:nth-child(2) b{color:var(--accent2-text)}
@@ -142,6 +143,7 @@ section{padding:64px 0;border-top:1px solid var(--line)}
 
 /* education etc */
 .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cols>div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow)}
 @media (max-width:860px){.cols{grid-template-columns:1fr}}
 .list{list-style:none;margin:0;padding:0}
 .list li{padding:14px 0;border-bottom:1px solid var(--line)}
@@ -177,6 +179,7 @@ footer p{color:var(--muted);margin:0 0 24px}
 
 <header class="hero" id="top">
   <div class="wrap">
+   <div class="hero-main">
     <div class="eyebrow">Portfolio</div>
     <h1>Maria Alejandra Zapata</h1>
     <p class="role">Business Intelligence Analyst &amp; Data Consultant</p>
@@ -200,11 +203,7 @@ footer p{color:var(--muted);margin:0 0 24px}
       </a>
     </div>
 
-    <div class="stats">
-      <div class="stat"><b>6+</b><span>years in BI &amp; data</span></div>
-      <div class="stat"><b>5</b><span>industries served</span></div>
-      <div class="stat"><b>3</b><span>languages: ES · EN · IT</span></div>
-    </div>
+   </div>
   </div>
 </header>
 
