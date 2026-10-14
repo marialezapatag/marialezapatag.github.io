@@ -120,6 +120,13 @@ section{padding:64px 0;border-top:1px solid var(--line)}
 /* dashboards */
 .dash-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
 @media (max-width:760px){.dash-grid{grid-template-columns:1fr}}
+.dash-list{list-style:none;margin:4px 0 0;padding:0;text-align:left}
+.dash-list li{border-top:1px solid var(--line)}
+.dash-list a{display:flex;align-items:center;gap:12px;padding:12px 2px;text-decoration:none;color:var(--text)}
+.dash-list a:hover b{color:var(--accent-text)}
+.dash-list i{width:12px;height:12px;border-radius:50%;flex:none}
+.dash-list span{flex:1;font-size:.88rem;color:var(--muted)}
+.dash-list b{display:block;color:var(--text);font-size:.95rem}
 .card.soon{border-style:dashed;border-color:var(--accent2);background:transparent;box-shadow:none}
 .pill{display:inline-block;font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--accent2-soft);color:var(--accent2-text);margin-bottom:12px;align-self:flex-start}
 
@@ -266,6 +273,7 @@ footer p{color:var(--muted);margin:0 0 24px}
         </ul>
         <div class="chips"><span class="chip">Python</span><span class="chip">LangChain</span><span class="chip">vLLM</span><span class="chip">SLURM</span><span class="chip">pandas</span></div>
         <div class="links">
+          <a href="dashboards/reddit.html" target="_blank" rel="noopener">Live dashboard ↗</a>
           <a href="https://github.com/marialezapatag/reddit-llm-stock-sentiment" target="_blank" rel="noopener">Code ↗</a>
         </div>
       </article>
@@ -278,10 +286,11 @@ footer p{color:var(--muted);margin:0 0 24px}
         <ul>
           <li>Transformer sentiment model, with VADER as a robustness check</li>
           <li>Zero-shot topic classification: informative, entertaining, promotional</li>
-          <li>Regression on engagement: sentiment × emoji use is the most consistent driver</li>
+          <li>Negative binomial models: more positive posts and more emojis both drive likes and comments, for every brand</li>
         </ul>
         <div class="chips"><span class="chip">Hugging Face</span><span class="chip">VADER</span><span class="chip">statsmodels</span><span class="chip">pandas</span></div>
         <div class="links">
+          <a href="dashboards/marketing.html" target="_blank" rel="noopener">Live dashboard ↗</a>
           <a href="https://github.com/marialezapatag/customer-marketing-analytics" target="_blank" rel="noopener">Code ↗</a>
         </div>
       </article>
@@ -352,10 +361,15 @@ footer p{color:var(--muted);margin:0 0 24px}
         </ul>
         <div class="chips"><span class="chip">Power BI</span><span class="chip">Looker Studio</span><span class="chip">Microsoft Fabric</span><span class="chip">BigQuery</span><span class="chip">Databricks</span></div>
       </article>
-      <article class="card soon">
-        <span class="pill">Coming soon</span>
-        <h3>Public dashboard showcase</h3>
-        <p>An interactive dashboard built on open data, showing how I approach KPIs, filters and storytelling. In the meantime, explore the <a href="dashboards/churn.html" target="_blank" rel="noopener">churn dashboard ↗</a>.</p>
+      <article class="card">
+        <div class="tag">Live portfolio</div>
+        <h3>Interactive dashboards</h3>
+        <p>One dashboard per project, each with its own visual theme for its kind of analysis.</p>
+        <ul class="dash-list">
+          <li><a href="dashboards/churn.html" target="_blank" rel="noopener"><i style="background:#1565C0"></i><span><b>Churn Intelligence</b>Model results, segments and risk scores for an insurer</span>↗</a></li>
+          <li><a href="dashboards/reddit.html" target="_blank" rel="noopener"><i style="background:#f2b84b"></i><span><b>Reddit Stock Sentiment</b>How 104K comments talk about listed companies</span>↗</a></li>
+          <li><a href="dashboards/marketing.html" target="_blank" rel="noopener"><i style="background:#c2255c"></i><span><b>Brand Social Pulse</b>What makes a brand&rsquo;s social post perform</span>↗</a></li>
+        </ul>
       </article>
     </div>
   </div>

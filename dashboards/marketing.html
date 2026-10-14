@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brand Social Pulse — Maria A. Zapata</title>
+<meta name="description" content="What makes a brand's social post perform? Sentiment, topic and emoji analysis of 600 posts from three brands.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --bg:#fbf7f2; --surface:#ffffff; --surface-2:#f4efe8; --line:#ebe3d8;
+  --text:#211d2c; --muted:#6c6577; --faint:#9a93a3;
+  --lumora:#c2255c; --fit:#e67700; --tech:#364fc7;
+  --lumora-soft:#fbe7ee; --fit-soft:#fdf0e1; --tech-soft:#e8ecfb;
+  --ink-sig:#211d2c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 "Plus Jakarta Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--tech)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+.strip{height:6px;background:linear-gradient(90deg,var(--lumora) 0 33.3%,var(--fit) 33.3% 66.6%,var(--tech) 66.6%)}
+.topbar .wrap{display:flex;align-items:center;height:56px;gap:12px}
+.logo{font-weight:800;letter-spacing:-.01em}
+.logo span{color:var(--lumora)}
+.back{margin-left:auto;font-size:.85rem;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--text)}
+
+.hero{padding:22px 0 8px}
+.kicker{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--lumora);margin-bottom:8px}
+h1{font-size:clamp(1.7rem,3.8vw,2.6rem);line-height:1.12;margin:0 0 10px;letter-spacing:-.02em;font-weight:800}
+.sub{color:var(--muted);max-width:760px;margin:0}
+
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:22px 0}
+@media (max-width:960px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.kpi .lab{font-size:.78rem;color:var(--muted);font-weight:600}
+.kpi .val{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;margin-top:4px}
+.kpi .note{font-size:.78rem;color:var(--faint)}
+
+.brands{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+@media (max-width:900px){.brands{grid-template-columns:1fr}}
+.brand{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 20px;border-top:5px solid var(--c)}
+.brand-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;background:var(--c);font-size:1rem}
+.brand h3{margin:0;font-size:1.05rem}
+.brand .handle{color:var(--muted);font-size:.82rem}
+.bstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.bstat{background:var(--soft);border-radius:10px;padding:8px 10px}
+.bstat .lab{font-size:.7rem;color:var(--muted);font-weight:600}
+.bstat .val{font-weight:800;font-size:1.05rem}
+.sig{font-size:.8rem;color:var(--muted)}
+.sig .em{font-size:1.35rem;letter-spacing:4px;margin-left:6px;vertical-align:middle}
+
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-bottom:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 20px;min-width:0}
+.c4{grid-column:span 4}.c5{grid-column:span 5}.c6{grid-column:span 6}.c7{grid-column:span 7}.c8{grid-column:span 8}.c12{grid-column:span 12}
+@media (max-width:900px){.c4,.c5,.c6,.c7,.c8{grid-column:span 12}}
+.panel h2{font-size:1.02rem;margin:0 0 3px;font-weight:700}
+.panel .desc{font-size:.84rem;color:var(--muted);margin:0 0 14px}
+.panel-head{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:flex-start}
+.chart{position:relative;width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8rem;color:var(--muted);margin-bottom:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:3px}
+.legend i.line{height:3px;width:16px;border-radius:2px}
+
+.seg{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;color:var(--muted);font:600 .8rem "Plus Jakarta Sans",sans-serif;padding:6px 12px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.controls{display:flex;flex-wrap:wrap;gap:8px}
+
+/* coefficient plot */
+.coef{margin-top:6px}
+.coef-row{display:grid;grid-template-columns:170px 1fr 92px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.coef-row:last-child{border-bottom:0}
+.coef-name{font-weight:600;font-size:.9rem}
+.coef-name small{display:block;color:var(--faint);font-weight:500;font-size:.75rem}
+.track{position:relative;height:26px}
+.track .zero{position:absolute;top:0;bottom:0;width:1px;background:var(--faint)}
+.track .ci{position:absolute;top:12px;height:2px;border-radius:2px}
+.track .pt{position:absolute;top:6px;width:14px;height:14px;border-radius:50%;transform:translateX(-50%);border:2px solid var(--surface);box-shadow:0 0 0 1px var(--c)}
+.track .pt.ns{background:var(--surface)!important;box-shadow:0 0 0 2px var(--faint)}
+.coef-val{text-align:right;font-weight:700;font-size:.92rem}
+.coef-val small{display:block;font-weight:500;color:var(--faint);font-size:.72rem}
+.axis{display:grid;grid-template-columns:170px 1fr 92px;gap:12px;font-size:.72rem;color:var(--faint);margin-top:4px}
+.axis .ticks{position:relative;height:14px}
+.axis .ticks span{position:absolute;transform:translateX(-50%)}
+@media (max-width:560px){.coef-row,.axis{grid-template-columns:110px 1fr 72px}}
+
+.findings{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media (max-width:900px){.findings{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.findings{grid-template-columns:1fr}}
+.finding{background:var(--surface-2);border-radius:14px;padding:14px 16px}
+.finding .big{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.finding p{margin:4px 0 0;font-size:.85rem;color:var(--muted)}
+.method{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media (max-width:900px){.method{grid-template-columns:1fr 1fr}}
+.mstep{border:1px solid var(--line);border-radius:12px;padding:12px}
+.mstep b{display:block;font-size:.75rem;color:var(--lumora);letter-spacing:.06em}
+.mstep h3{margin:2px 0 4px;font-size:.92rem}
+.mstep p{margin:0;font-size:.8rem;color:var(--muted)}
+footer{color:var(--faint);font-size:.8rem;padding:22px 0 40px}
+footer p{margin:4px 0}
+.tablewrap{overflow:auto;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:600;font-size:.74rem}
+.linkbtn{background:none;border:0;padding:0;color:var(--tech);font:600 .82rem "Plus Jakarta Sans",sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin-top:8px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="strip"></div>
+<div class="topbar"><div class="wrap">
+  <div class="logo">Brand<span>Social</span>Pulse</div>
+  <a class="back" href="../index.html">← Maria A. Zapata · Portfolio</a>
+</div></div>
+
+<main class="wrap">
+  <header class="hero">
+    <div class="kicker">NLP · Marketing analytics · MSc DSBA</div>
+    <h1>What makes a brand post perform?</h1>
+    <p class="sub">600 social media posts from three brands, scored for sentiment with a transformer model, classified by topic with zero-shot learning and broken down by emoji use, then linked to likes and comments with negative binomial regression.</p>
+  </header>
+
+  <section class="kpis" id="kpis" aria-label="Key figures"></section>
+  <section class="brands" id="brands" aria-label="Brand overview"></section>
+
+  <div class="grid">
+    <section class="panel c5">
+      <h2>Who sounds most positive?</h2>
+      <p class="desc">Average sentiment score per post, from −1 (negative) to +1 (positive) · label = share of positive posts</p>
+      <div class="chart" style="height:220px"><canvas id="sentChart" aria-label="Average sentiment by brand"></canvas></div>
+    </section>
+    <section class="panel c7">
+      <h2>What brands post about</h2>
+      <p class="desc">Share of each brand's posts by topic, from zero-shot classification</p>
+      <div class="legend" id="legendTopic"></div>
+      <div class="chart" style="height:240px"><canvas id="topicChart" aria-label="Topic share by brand"></canvas></div>
+    </section>
+  </div>
+
+  <div class="grid">
+    <section class="panel c6">
+      <div class="panel-head">
+        <div><h2>More emojis, more engagement</h2><p class="desc">Average per post by number of emojis used</p></div>
+        <div class="seg" role="group" aria-label="Engagement metric">
+          <button type="button" data-metric="Likes" aria-pressed="true">Likes</button>
+          <button type="button" data-metric="Comments" aria-pressed="false">Comments</button>
+        </div>
+      </div>
+      <div class="legend" id="legendEmoji"></div>
+      <div class="chart" style="height:280px"><canvas id="emojiChart" aria-label="Engagement by emoji count"></canvas></div>
+      <button class="linkbtn" id="emojiTableBtn" aria-expanded="false">View as table</button>
+      <div class="tablewrap" id="emojiTable" hidden></div>
+    </section>
+    <section class="panel c6">
+      <div class="panel-head">
+        <div><h2>What drives engagement</h2><p class="desc">Expected change in engagement per post · negative binomial models with 95% CI</p></div>
+      </div>
+      <div class="controls" style="margin-bottom:6px">
+        <div class="seg" role="group" aria-label="Outcome" id="outSeg">
+          <button type="button" data-out="likes" aria-pressed="true">Likes</button>
+          <button type="button" data-out="comments" aria-pressed="false">Comments</button>
+        </div>
+        <div class="seg" role="group" aria-label="Brand model" id="brandSeg">
+          <button type="button" data-brand="All" aria-pressed="true">All brands</button>
+          <button type="button" data-brand="LumoraBeauty" aria-pressed="false">Lumora</button>
+          <button type="button" data-brand="FitPulse" aria-pressed="false">FitPulse</button>
+          <button type="button" data-brand="TechNest" aria-pressed="false">TechNest</button>
+        </div>
+      </div>
+      <div class="coef" id="coef"></div>
+      <div class="axis"><span></span><div class="ticks" id="coefTicks"></div><span></span></div>
+      <p class="desc" style="margin:12px 0 0">Filled dot = significant (p &lt; 0.05); hollow = not significant. Sentiment and emojis: effect of +1 standard deviation. Topics: compared with informative posts.</p>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-bottom:16px">
+    <h2>Key findings</h2>
+    <p class="desc">What a social media team could act on</p>
+    <div class="findings" id="findings"></div>
+  </section>
+
+  <section class="panel" style="margin-bottom:8px">
+    <h2>Method</h2>
+    <p class="desc">Five questions, one notebook</p>
+    <div class="method">
+      <div class="mstep"><b>Q1</b><h3>Sentiment</h3><p>RoBERTa model trained on tweets, with VADER as a robustness check (r = 0.54).</p></div>
+      <div class="mstep"><b>Q2</b><h3>Topic</h3><p>Zero-shot classification: informative, entertaining or promotional.</p></div>
+      <div class="mstep"><b>Q3</b><h3>Emojis</h3><p>Emoji counts, types and signature emojis per brand.</p></div>
+      <div class="mstep"><b>Q4</b><h3>Drivers</h3><p>Negative binomial regression on likes and comments (overdispersed counts).</p></div>
+      <div class="mstep"><b>Q5</b><h3>Brand differences</h3><p>Separate models per brand plus interaction effects.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>Data:</b> course dataset of 600 posts (200 per brand) for three brands. Model outputs come from the project notebook; engagement and emoji figures are computed from the raw posts. Interaction effects were small and inconsistent across brands, so they are not shown here.</p>
+    <p>Built by Maria Alejandra Zapata · <a href="https://github.com/marialezapatag/customer-marketing-analytics">Code on GitHub</a></p>
+  </footer>
+</main>
+
+<script>
+const D = {"brands":{"LumoraBeauty":{"handle":"@LumoraBeauty","posts":200,"followers":485000,"postsLastYear":318,"likes":3335,"likesMed":2870.0,"comments":202,"reposts":371,"engRate":0.81,"emojiAvg":2.44,"bucketLikes":[2382,1710,2760,3840,4294],"bucketComments":[117,80,174,255,256],"bucketN":[31,13,50,49,57],"topEmoji":[["✨",89],["💛",53],["🌸",46],["💕",20],["🌙",19]]},"FitPulse":{"handle":"@FitPulseOfficial","posts":200,"followers":312000,"postsLastYear":276,"likes":2021,"likesMed":1780.0,"comments":141,"reposts":482,"engRate":0.85,"emojiAvg":2.3,"bucketLikes":[1494,380,1533,2569,2599],"bucketComments":[82,34,109,187,191],"bucketN":[42,3,57,58,40],"topEmoji":[["💪",93],["🔥",44],["👇",42],["😂",22],["😅",20]]},"TechNest":{"handle":"@TechNestHQ","posts":200,"followers":218000,"postsLastYear":194,"likes":1204,"likesMed":1057.0,"comments":83,"reposts":225,"engRate":0.69,"emojiAvg":2.56,"bucketLikes":[762,null,859,1208,1708],"bucketComments":[49,null,56,79,128],"bucketN":[39,0,31,75,55],"topEmoji":[["💻",63],["⚡",62],["👇",51],["💡",38],["✅",28]]}},"buckets":["0","1","2","3","4+"],"model":{"labels":{"Positive":350,"Neutral":190,"Negative":60},"sentiment":{"LumoraBeauty":{"mean":0.614,"pos":73},"FitPulse":{"mean":0.435,"pos":55.5},"TechNest":{"mean":0.286,"pos":46.5}},"topics":{"FitPulse":{"Informative":145,"Entertaining":6,"Promotional":49},"LumoraBeauty":{"Informative":129,"Entertaining":18,"Promotional":53},"TechNest":{"Informative":137,"Entertaining":21,"Promotional":42}},"coef":{"All":{"likes":{"sent":[0.2866,0.23,0.344,0.0001],"ent":[-0.0943,-0.296,0.107,0.36],"promo":[0.0865,-0.034,0.206,0.158],"emoji":[0.1373,0.082,0.193,0.0001]},"comments":{"sent":[0.3291,0.271,0.387,0.0001],"ent":[-0.1099,-0.316,0.097,0.297],"promo":[0.0102,-0.115,0.135,0.872],"emoji":[0.1995,0.141,0.258,0.0001]}},"LumoraBeauty":{"likes":{"sent":[0.1458,0.0324,0.2593,0.0118],"ent":[-0.1258,-0.3931,0.1416,0.3566],"promo":[-0.1167,-0.2819,0.0485,0.1663],"emoji":[0.2017,0.1134,0.2901,0.0001]},"comments":{"sent":[0.2988,0.1833,0.4143,0.0001],"ent":[-0.1127,-0.3987,0.1732,0.4396],"promo":[-0.1467,-0.3244,0.0311,0.1058],"emoji":[0.2226,0.1261,0.3191,0.0001]}},"FitPulse":{"likes":{"sent":[0.1568,0.0588,0.2549,0.0017],"ent":[0.2922,-0.1708,0.7552,0.2161],"promo":[0.1383,-0.0409,0.3176,0.1304],"emoji":[0.1582,0.0698,0.2466,0.0005]},"comments":{"sent":[0.2118,0.0979,0.3257,0.0003],"ent":[0.1346,-0.3915,0.6606,0.6161],"promo":[-0.0446,-0.2494,0.1602,0.6695],"emoji":[0.2272,0.122,0.3324,0.0001]}},"TechNest":{"likes":{"sent":[0.1839,0.1194,0.2484,0.0001],"ent":[-0.0117,-0.2424,0.219,0.9208],"promo":[0.237,0.0667,0.4073,0.0064],"emoji":[0.2371,0.1699,0.3042,0.0001]},"comments":{"sent":[0.1951,0.1237,0.2664,0.0001],"ent":[0.0348,-0.2293,0.2988,0.7963],"promo":[0.2161,0.0224,0.4099,0.0288],"emoji":[0.2895,0.213,0.366,0.0001]}}}}};
+document.fonts.ready.then(()=>{
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const B = ['LumoraBeauty','FitPulse','TechNest'];
+const SHORT = {LumoraBeauty:'Lumora',FitPulse:'FitPulse',TechNest:'TechNest'};
+const COL = {LumoraBeauty:css('--lumora'),FitPulse:css('--fit'),TechNest:css('--tech')};
+const SOFT = {LumoraBeauty:css('--lumora-soft'),FitPulse:css('--fit-soft'),TechNest:css('--tech-soft')};
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const kfmt = n => n>=1e6 ? (n/1e6).toFixed(2)+'M' : n>=1e3 ? Math.round(n/1e3)+'K' : String(n);
+
+Chart.defaults.font.family = "'Plus Jakarta Sans', system-ui, sans-serif";
+Chart.defaults.color = css('--muted');
+Chart.defaults.borderColor = css('--line');
+const tooltip = {backgroundColor:'#211d2c',titleColor:'#fff',bodyColor:'#fff',padding:10,boxPadding:4,cornerRadius:8,titleFont:{weight:'700'}};
+const legend = el => document.getElementById(el).innerHTML = B.map(b=>`<span><i style="background:${COL[b]}"></i>${SHORT[b]}</span>`).join('');
+
+/* KPIs */
+const br = D.brands, M = D.model;
+const totalFollowers = B.reduce((a,b)=>a+br[b].followers,0);
+const avgLikes = B.reduce((a,b)=>a+br[b].likes,0)/3;
+const posShare = 100*M.labels.Positive/600;
+const avgEmoji = B.reduce((a,b)=>a+br[b].emojiAvg,0)/3;
+document.getElementById('kpis').innerHTML = [
+  ['Posts analysed','600','200 per brand'],
+  ['Combined audience',kfmt(totalFollowers),'followers across 3 brands'],
+  ['Avg likes per post',fmt(avgLikes),'across all brands'],
+  ['Positive posts',posShare.toFixed(0)+'%','by the transformer model'],
+  ['Emojis per post',avgEmoji.toFixed(1),'on average'],
+].map(([l,v,n])=>`<div class="kpi"><div class="lab">${l}</div><div class="val">${v}</div><div class="note">${n}</div></div>`).join('');
+
+/* brand cards */
+const INIT = {LumoraBeauty:'LB',FitPulse:'FP',TechNest:'TN'};
+const CAT = {LumoraBeauty:'Beauty',FitPulse:'Fitness',TechNest:'Tech'};
+document.getElementById('brands').innerHTML = B.map(b=>{const x=br[b];return `
+  <article class="brand" style="--c:${COL[b]};--soft:${SOFT[b]}">
+    <div class="brand-head"><div class="avatar">${INIT[b]}</div><div><h3>${b}</h3><div class="handle">${x.handle} · ${CAT[b]} · ${kfmt(x.followers)} followers</div></div></div>
+    <div class="bstats">
+      <div class="bstat"><div class="lab">Avg likes</div><div class="val">${fmt(x.likes)}</div></div>
+      <div class="bstat"><div class="lab">Avg comments</div><div class="val">${fmt(x.comments)}</div></div>
+      <div class="bstat"><div class="lab">Engagement rate</div><div class="val">${x.engRate.toFixed(2)}%</div></div>
+    </div>
+    <div class="sig">Signature emojis<span class="em" aria-label="${x.topEmoji.slice(0,4).map(e=>e[0]).join(' ')}">${x.topEmoji.slice(0,4).map(e=>e[0]).join('')}</span></div>
+  </article>`;}).join('');
+
+/* sentiment by brand */
+const sentData = B.map(b=>M.sentiment[b].mean);
+new Chart(document.getElementById('sentChart'),{type:'bar',
+  data:{labels:B.map(b=>SHORT[b]),datasets:[{data:sentData,backgroundColor:B.map(b=>COL[b]),borderRadius:{topRight:4,bottomRight:4},borderSkipped:'left',barPercentage:.6}]},
+  options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:70}},
+    plugins:{legend:{display:false},tooltip:{...tooltip,callbacks:{label:c=>` Avg score ${c.parsed.x.toFixed(2)} · ${M.sentiment[B[c.dataIndex]].pos}% positive posts`}}},
+    scales:{x:{min:0,max:1,grid:{color:css('--line')},ticks:{callback:v=>v.toFixed(1)}},y:{grid:{display:false},ticks:{color:css('--text'),font:{weight:'700'}}}}},
+  plugins:[{id:'lbl',afterDatasetsDraw(ch){const {ctx}=ch;ctx.save();ctx.font="600 12px 'Plus Jakarta Sans'";ctx.fillStyle=css('--muted');ctx.textBaseline='middle';
+    ch.getDatasetMeta(0).data.forEach((bar,i)=>ctx.fillText(`${M.sentiment[B[i]].pos}% positive`,bar.x+8,bar.y));ctx.restore();}}]});
+
+/* topics: grouped by topic, series = brand */
+legend('legendTopic');
+const TOP = ['Informative','Promotional','Entertaining'];
+new Chart(document.getElementById('topicChart'),{type:'bar',
+  data:{labels:TOP,datasets:B.map(b=>({label:SHORT[b],data:TOP.map(t=>100*M.topics[b][t]/200),backgroundColor:COL[b],borderRadius:{topLeft:4,topRight:4},borderSkipped:'bottom',
+    borderColor:css('--surface'),borderWidth:{left:1,right:1},barPercentage:.85,categoryPercentage:.7}))},
+  options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tooltip,callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}% (${M.topics[B[c.datasetIndex]][TOP[c.dataIndex]]} posts)`}}},
+    scales:{y:{beginAtZero:true,max:80,grid:{color:css('--line')},ticks:{callback:v=>v+'%'}},x:{grid:{display:false},ticks:{color:css('--text'),font:{weight:'600'}}}}}});
+
+/* emoji buckets: merge 0 and 1 (small groups) */
+legend('legendEmoji');
+const BK = ['0–1','2','3','4+'];
+function merged(b,metric){const x=br[b],v=x['bucket'+metric],n=x.bucketN;
+  const n01=n[0]+n[1]; const m01=n01?((v[0]||0)*n[0]+(v[1]||0)*n[1])/n01:null;
+  return {vals:[m01,v[2],v[3],v[4]],ns:[n01,n[2],n[3],n[4]]};}
+let emojiChart;
+function drawEmoji(metric){
+  const ds=B.map(b=>{const m=merged(b,metric);return {label:SHORT[b],data:m.vals,ns:m.ns,borderColor:COL[b],backgroundColor:COL[b],borderWidth:2,tension:.2,
+    pointRadius:4,pointHoverRadius:7,pointBorderColor:css('--surface'),pointBorderWidth:2};});
+  const opts={maintainAspectRatio:false,interaction:{mode:'index',intersect:false},layout:{padding:{right:64}},
+    plugins:{legend:{display:false},tooltip:{...tooltip,callbacks:{title:i=>`${i[0].label} emojis`,label:c=>` ${c.dataset.label}: ${fmt(c.parsed.y)} ${metric.toLowerCase()} (${c.dataset.ns[c.dataIndex]} posts)`}}},
+    scales:{y:{beginAtZero:true,grid:{color:css('--line')},ticks:{callback:v=>fmt(v)}},x:{grid:{display:false},title:{display:true,text:'Emojis in the post'}}}};
+  if(emojiChart){emojiChart.data.datasets=ds;emojiChart.options=opts;emojiChart.update();}
+  else emojiChart=new Chart(document.getElementById('emojiChart'),{type:'line',data:{labels:BK,datasets:ds},options:opts,
+    plugins:[{id:'endlbl',afterDatasetsDraw(ch){const {ctx}=ch;ctx.save();ctx.font="700 12px 'Plus Jakarta Sans'";ctx.textBaseline='middle';
+      ch.data.datasets.forEach((d,i)=>{const p=ch.getDatasetMeta(i).data.at(-1);if(!p)return;ctx.fillStyle=css('--text');ctx.fillText(d.label,p.x+10,p.y);});ctx.restore();}}]});
+  document.getElementById('emojiTable').innerHTML='<table><thead><tr><th>Brand</th>'+BK.map(k=>`<th>${k} emojis</th>`).join('')+'</tr></thead><tbody>'+
+    B.map(b=>{const m=merged(b,metric);return `<tr><td>${b}</td>${m.vals.map((v,i)=>`<td>${v==null?'–':fmt(v)} <span style="color:var(--faint)">(n=${m.ns[i]})</span></td>`).join('')}</tr>`;}).join('')+'</tbody></table>';
+}
+document.querySelectorAll('[data-metric]').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('[data-metric]').forEach(x=>x.setAttribute('aria-pressed',x===btn));drawEmoji(btn.dataset.metric);}));
+drawEmoji('Likes');
+const et=document.getElementById('emojiTable'), eb=document.getElementById('emojiTableBtn');
+eb.addEventListener('click',()=>{const open=et.hidden;et.hidden=!open;eb.setAttribute('aria-expanded',open);eb.textContent=open?'Hide table':'View as table';});
+
+/* coefficient plot (HTML) */
+const VARS=[['sent','Sentiment','+1 SD more positive'],['emoji','Emoji count','+1 SD more emojis'],['promo','Promotional post','vs. informative'],['ent','Entertaining post','vs. informative']];
+const pc = c => 100*(Math.exp(c)-1);
+const LO=-40, HI=120;
+const pos = v => 100*(Math.min(Math.max(v,LO),HI)-LO)/(HI-LO);
+document.getElementById('coefTicks').innerHTML=[-40,0,40,80,120].map(t=>`<span style="left:${pos(t)}%">${t>0?'+':''}${t}%</span>`).join('');
+let state={out:'likes',brand:'All'};
+function drawCoef(){
+  const m=M.coef[state.brand][state.out], color=state.brand==='All'?css('--ink-sig'):COL[state.brand];
+  document.getElementById('coef').innerHTML=VARS.map(([k,name,sub])=>{const [c,lo,hi,p]=m[k];const sig=p<0.05;
+    const v=pc(c),l=pc(lo),h=pc(hi);
+    return `<div class="coef-row" style="--c:${color}">
+      <div class="coef-name">${name}<small>${sub}</small></div>
+      <div class="track" role="img" aria-label="${name}: ${v>0?'+':''}${v.toFixed(0)}% (95% CI ${l.toFixed(0)}% to ${h.toFixed(0)}%), ${sig?'significant':'not significant'}">
+        <div class="zero" style="left:${pos(0)}%"></div>
+        <div class="ci" style="left:${pos(l)}%;width:${pos(h)-pos(l)}%;background:${sig?color:css('--faint')}"></div>
+        <div class="pt ${sig?'':'ns'}" style="left:${pos(v)}%;background:${color}"></div>
+      </div>
+      <div class="coef-val">${v>0?'+':''}${v.toFixed(0)}%<small>${sig?(p<0.001?'p < 0.001':'p = '+p.toFixed(3)):'not significant'}</small></div>
+    </div>`;}).join('');
+}
+['outSeg','brandSeg'].forEach(id=>document.getElementById(id).querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>{
+  document.getElementById(id).querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===btn));
+  if(btn.dataset.out)state.out=btn.dataset.out; if(btn.dataset.brand)state.brand=btn.dataset.brand; drawCoef();})));
+drawCoef();
+
+/* findings (computed) */
+const sentL=pc(M.coef.All.likes.sent[0]), sentC=pc(M.coef.All.comments.sent[0]), emoL=pc(M.coef.All.likes.emoji[0]), emoC=pc(M.coef.All.comments.emoji[0]);
+const fp=br.FitPulse, tn=br.TechNest;
+document.getElementById('findings').innerHTML=[
+  [`+${sentL.toFixed(0)}%`,`more likes (and +${sentC.toFixed(0)}% comments) for every standard deviation more positive a post sounds. It holds for all three brands.`],
+  [`+${emoL.toFixed(0)}%`,`more likes (and +${emoC.toFixed(0)}% comments) for every standard deviation more emojis. Posts with 4+ emojis beat posts with 0–1 for every brand.`],
+  [`Topic`,`barely matters: entertaining and promotional posts perform like informative ones, except TechNest, where promotional posts earn about +${pc(M.coef.TechNest.likes.promo[0]).toFixed(0)}% likes.`],
+  [`${fp.engRate.toFixed(2)}%`,`engagement rate for FitPulse, the highest of the three despite a smaller audience than LumoraBeauty; TechNest trails at ${tn.engRate.toFixed(2)}%.`],
+].map(([b,t])=>`<div class="finding"><div class="big">${b}</div><p>${t}</p></div>`).join('');
+});
+</script>
+</body>
+</html>
