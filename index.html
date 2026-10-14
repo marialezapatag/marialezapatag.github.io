@@ -128,6 +128,13 @@ section{padding:64px 0;border-top:1px solid var(--line)}
 .dash-list i{width:12px;height:12px;border-radius:50%;flex:none}
 .dash-list span{flex:1;font-size:.88rem;color:var(--muted)}
 .dash-list b{display:block;color:var(--text);font-size:.95rem}
+.card.pbi{grid-column:1/-1}
+.pbi-frame{position:relative;aspect-ratio:600/373.5;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2);margin:4px 0 18px}
+.pbi-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pbi-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:16px}
+.pbi-cols h4{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.pbi-cols p{font-size:.93rem;margin:0}
+@media (max-width:760px){.pbi-cols{grid-template-columns:1fr;gap:12px}}
 .card.soon{border-style:dashed;border-color:var(--accent2);background:transparent;box-shadow:none}
 .pill{display:inline-block;font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--accent2-soft);color:var(--accent2-text);margin-bottom:12px;align-self:flex-start}
 
@@ -349,6 +356,23 @@ footer p{color:var(--muted);margin:0 0 24px}
     <div class="eyebrow">Dashboards</div>
     <h2>Dashboards &amp; BI</h2>
     <div class="dash-grid">
+      <article class="card pbi">
+        <div class="tag">Power BI · Live report</div>
+        <h3>Bay Area Bike Share: demand, stations &amp; weather</h3>
+        <p>A Power BI report on 354K bike-share trips across 76 stations in five Bay Area cities (Sep 2014 – Aug 2015), combined with daily weather, ending in insights and rebalancing recommendations. Explore it below: filters and cross-highlighting work as in Power BI.</p>
+        <div class="pbi-frame">
+          <iframe title="Bikes: Bay Area Bike Share Power BI report" src="https://app.powerbi.com/view?r=eyJrIjoiYzg0MjYzMzYtYjhmNS00N2EyLTgzNWItOGZlZjJjM2M1OGQyIiwidCI6ImFjYTUxNjMxLTAwZmUtNDkwZC05MWFiLTE2M2VmODcyNjBlZSIsImMiOjR9" loading="lazy" allowfullscreen></iframe>
+        </div>
+        <div class="pbi-cols">
+          <div><h4>Data model</h4><p>Star schema with a marked date table; each trip is split into a departure and an arrival event so every station shows bikes leaving and arriving.</p></div>
+          <div><h4>DAX</h4><p>Unique-trip counting, month-over-month change, net bike flow per station and its 60-day moving average with a 7-day forecast.</p></div>
+          <div><h4>Power Query</h4><p>Parameterized CSV sources, locale-safe parsing of dates and numbers, and imperial-to-metric conversion of the weather data.</p></div>
+        </div>
+        <div class="chips"><span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">Power Query (M)</span><span class="chip">Data modeling</span></div>
+        <div class="links">
+          <a href="https://app.powerbi.com/view?r=eyJrIjoiYzg0MjYzMzYtYjhmNS00N2EyLTgzNWItOGZlZjJjM2M1OGQyIiwidCI6ImFjYTUxNjMxLTAwZmUtNDkwZC05MWFiLTE2M2VmODcyNjBlZSIsImMiOjR9" target="_blank" rel="noopener">Open full screen ↗</a>
+        </div>
+      </article>
       <article class="card">
         <div class="tag">Professional experience</div>
         <h3>Executive dashboards in Power BI &amp; Looker Studio</h3>
