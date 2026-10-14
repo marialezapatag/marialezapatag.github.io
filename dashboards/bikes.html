@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bay Area Bike Share — Maria A. Zapata</title>
+<meta name="description" content="Interactive Power BI report on 354K Bay Area Bike Share trips: demand by hour, station bike availability, weather impact and rebalancing recommendations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f6f2; --surface:#ffffff; --surface-2:#efede6; --line:#e2dfd6;
+  --text:#1c1d1f; --muted:#5d6066; --faint:#8a8d91;
+  --teal:#0f6e66; --teal-dark:#0b3b38; --teal-soft:#dcefeb; --coral:#c0582f; --coral-soft:#f8e4da;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 "DM Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--teal)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+.strip{height:6px;background:linear-gradient(90deg,var(--teal) 0 70%,var(--coral) 70%)}
+.topbar .wrap{display:flex;align-items:center;height:56px;gap:12px}
+.logo{font-weight:700;letter-spacing:-.01em}
+.logo span{color:var(--teal)}
+.back{margin-left:auto;font-size:.85rem;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--text)}
+
+.hero{padding:22px 0 8px}
+.kicker{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:8px}
+h1{font-size:clamp(1.7rem,3.8vw,2.6rem);line-height:1.12;margin:0 0 10px;letter-spacing:-.02em;font-weight:700}
+.sub{color:var(--muted);max-width:780px;margin:0}
+
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:22px 0}
+@media (max-width:960px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.kpi .lab{font-size:.78rem;color:var(--muted);font-weight:500}
+.kpi .val{font-size:1.7rem;font-weight:700;letter-spacing:-.02em;margin-top:4px;color:var(--teal)}
+.kpi .note{font-size:.78rem;color:var(--faint)}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin-bottom:16px}
+.panel h2{font-size:1.05rem;margin:0 0 4px}
+.panel .hint{color:var(--muted);font-size:.85rem;margin:0 0 14px}
+.report{position:relative;aspect-ratio:600/373.5;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2)}
+.report iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:999px;font-weight:500;font-size:.9rem;text-decoration:none;border:1px solid var(--line);color:var(--text);background:var(--surface)}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn:hover{border-color:var(--teal)}
+
+.findings{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:900px){.findings{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.findings{grid-template-columns:1fr}}
+.finding{background:var(--surface-2);border-radius:14px;padding:14px 16px}
+.finding .big{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;color:var(--teal)}
+.finding.alt .big{color:var(--coral)}
+.finding h3{margin:2px 0 4px;font-size:.95rem}
+.finding p{margin:0;font-size:.85rem;color:var(--muted)}
+
+.method{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:900px){.method{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.method{grid-template-columns:1fr}}
+.mstep{border:1px solid var(--line);border-radius:12px;padding:12px}
+.mstep b{display:block;font-size:.75rem;color:var(--coral);letter-spacing:.06em}
+.mstep h3{margin:2px 0 4px;font-size:.92rem}
+.mstep p{margin:0;font-size:.82rem;color:var(--muted)}
+footer{color:var(--faint);font-size:.8rem;padding:22px 0 40px}
+footer p{margin:4px 0}
+</style>
+</head>
+<body>
+<div class="strip"></div>
+<div class="topbar"><div class="wrap">
+  <div class="logo">Bay Area <span>Bike Share</span></div>
+  <a class="back" href="../index.html">← Maria A. Zapata · Portfolio</a>
+</div></div>
+
+<main class="wrap">
+  <header class="hero">
+    <div class="kicker">Power BI · Live report</div>
+    <h1>Where, when and why bikes run out</h1>
+    <p class="sub">A Power BI report on one year of Bay Area Bike Share trips (Sep 2014 – Aug 2015) combined with daily weather: demand by hour and weekday, bike availability per station, weather impact and rebalancing recommendations.</p>
+  </header>
+
+  <section class="kpis" aria-label="Key figures">
+    <div class="kpi"><div class="lab">Trips</div><div class="val">354K</div><div class="note">Sep 2014 – Aug 2015</div></div>
+    <div class="kpi"><div class="lab">Stations</div><div class="val">76</div><div class="note">in 5 cities</div></div>
+    <div class="kpi"><div class="lab">Weekday trips at peak hours</div><div class="val">65%</div><div class="note">7–9 a.m. and 4–6 p.m.</div></div>
+    <div class="kpi"><div class="lab">Trips in San Francisco</div><div class="val">91%</div><div class="note">39 of 76 stations</div></div>
+    <div class="kpi"><div class="lab">Trips by subscribers</div><div class="val">88%</div><div class="note">~10 min average ride</div></div>
+  </section>
+
+  <section class="panel">
+    <h2>Interactive report</h2>
+    <p class="hint">Use the side menu to move between pages; slicers and cross-highlighting work as in Power BI.</p>
+    <div class="report">
+      <iframe title="Bay Area Bike Share Power BI report" src="https://app.powerbi.com/view?r=eyJrIjoiYzg0MjYzMzYtYjhmNS00N2EyLTgzNWItOGZlZjJjM2M1OGQyIiwidCI6ImFjYTUxNjMxLTAwZmUtNDkwZC05MWFiLTE2M2VmODcyNjBlZSIsImMiOjR9" allowfullscreen></iframe>
+    </div>
+    <div class="actions">
+      <a class="btn primary" href="https://app.powerbi.com/view?r=eyJrIjoiYzg0MjYzMzYtYjhmNS00N2EyLTgzNWItOGZlZjJjM2M1OGQyIiwidCI6ImFjYTUxNjMxLTAwZmUtNDkwZC05MWFiLTE2M2VmODcyNjBlZSIsImMiOjR9" target="_blank" rel="noopener">Open full screen ↗</a>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Key findings</h2>
+    <p class="hint">Validated against the corrected model; every trip is counted once.</p>
+    <div class="findings">
+      <div class="finding"><div class="big">−5,761</div><h3>Caltrain empties every morning</h3><p>SF Caltrain (Townsend at 4th) loses bikes from 7 to 9 a.m. and gains +12,962 from 4 to 6 p.m.: the classic last-mile pattern.</p></div>
+      <div class="finding alt"><div class="big">49–60 min</div><h3>Two kinds of riders</h3><p>Casual customers make 12% of trips but ride 5× longer than subscribers, and their share peaks in summer.</p></div>
+      <div class="finding"><div class="big">−40%</div><h3>Rain matters more than cold</h3><p>Weekdays with more than 5 mm of rain have about 40% fewer trips; temperature correlates only moderately (r = 0.38).</p></div>
+      <div class="finding alt"><div class="big">23%</div><h3>Palo Alto rides for leisure</h3><p>Highest weekend share of all cities, the lowest subscriber share (60%) and 45-minute average trips.</p></div>
+      <div class="finding"><div class="big">&lt;0.1</div><h3>Idle docks in Redwood City</h3><p>Trips per dock per day, vs. 8.8 at SF Caltrain: capacity that could move to high-demand stations.</p></div>
+      <div class="finding alt"><div class="big">−25%</div><h3>Holidays drive the winter dip</h3><p>November and December are the weakest months; the quietest days are Thanksgiving, Christmas and New Year.</p></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>How it was built</h2>
+    <p class="hint">Saved as a Power BI project (PBIP) so the model and report are version-controlled as text.</p>
+    <div class="method">
+      <div class="mstep"><b>01 · POWER QUERY</b><h3>Clean ingestion</h3><p>Parameterized CSV sources, locale-safe parsing of dates and numbers, imperial-to-metric weather conversion.</p></div>
+      <div class="mstep"><b>02 · DATA MODEL</b><h3>Star schema</h3><p>Each trip split into a departure and an arrival event, linked to stations, a marked date table and daily weather by ZIP code.</p></div>
+      <div class="mstep"><b>03 · DAX</b><h3>Measures</h3><p>Unique-trip counting, month-over-month change, net bike flow per station and its 60-day moving average with a 7-day forecast.</p></div>
+      <div class="mstep"><b>04 · REPORT</b><h3>Storytelling</h3><p>Six pages from overview to recommendations, with a custom theme and consistent navigation.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>Data:</b> Bay Area Bike Share open data (trips, stations and daily weather), used in the Business Intelligence course of the MSc in Data Science &amp; Business Analytics, Bologna Business School.</p>
+    <p>Built by Maria Alejandra Zapata</p>
+  </footer>
+</main>
+</body>
+</html>
